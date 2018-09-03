@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,11 +35,13 @@ public class MapViewFragment extends Fragment {
         View rootView = layoutInflater.inflate(R.layout.location_fragment, viewGroup, false);
 
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-        alertDialogBuilder.setMessage(R.string.Permission_message);
+        alertDialogBuilder.setMessage(R.string.Permission_message + "\n"+"You need this for the app");
         alertDialogBuilder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
+                Log.d("AlertDialog","Positive button touched.");
+                requestPermissions(permissions,PackageManager.PERMISSION_GRANTED);
             }
         });
 
