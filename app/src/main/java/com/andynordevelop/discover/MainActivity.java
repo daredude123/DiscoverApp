@@ -74,7 +74,7 @@ public class MainActivity extends FragmentActivity {
 
     private void initialisepaging() {
         List<Fragment> fragmentList = new Vector<Fragment>();
-        fragmentList.add(Fragment.instantiate(this,))
+        fragmentList.add(Fragment.instantiate(this,""));
     }
 
     private void findNewLocation() {
