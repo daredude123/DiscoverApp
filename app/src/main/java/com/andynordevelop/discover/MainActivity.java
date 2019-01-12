@@ -1,6 +1,7 @@
 package com.andynordevelop.discover;
 
 import android.Manifest;
+import android.app.AlarmManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -9,12 +10,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static String[] permissions = new String[]{
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+    };
 
     LocationManager locationManager;
     Location myLocation;
@@ -33,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         IssLocationImpl issLocationimpl = new IssLocationImpl(super.getBaseContext());
+
+        issLocationimpl.startISSLocationThread();
         //Empty location to avoid Nullpointer
         myLocation = new Location("");
         //default location it rains in africa :)
@@ -40,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
         lon = 0;
         data = findViewById(R.id.Data);
 
-        if (myLocation != null) {
-            data.setText("you are here - Lat: " + myLocation.getLatitude() + " Long: " + myLocation.getLongitude());
+        if (issLocationimpl.getIssLocationVO().getCurrentLocation() != null) {
+            data.setText("you are here - Lat: " + issLocationimpl.getIssLocationVO().getCurrentLocation().getLatitude() + " Long: " + issLocationimpl.getIssLocationVO().getCurrentLocation().getLongitude());
         } else {
             data.setText("Location finder failed");
         }
